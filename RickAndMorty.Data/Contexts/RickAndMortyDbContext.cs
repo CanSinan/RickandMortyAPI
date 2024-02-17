@@ -14,7 +14,6 @@ namespace RickAndMorty.Data.Contexts
 
         public DbSet<Episode> Episodes { get; set; }
         public DbSet<Character> Characters { get; set; }
-        //public DbSet<EpisodeInfo> EpisodeInfos { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Resident> Residents{ get; set; }
         public DbSet<Origin> Origins { get; set; }

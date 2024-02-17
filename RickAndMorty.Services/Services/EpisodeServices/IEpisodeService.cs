@@ -1,4 +1,5 @@
 ﻿using RickAndMorty.Data.Entities;
+using RickAndMorty.Data.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,8 @@ namespace RickAndMorty.Data.Repositories.EpisodeRepositories
 {
     public interface IEpisodeService 
     {
-        Task<IEnumerable<Episode>> GetAllAsync();
-        Task<Episode> GetByIdAsync(int id);
-        Task<Episode> CreateAsync(Episode entity);
-        Task<Episode> UpdateAsync(Episode entity);
-        Task<bool> DeleteAsync(int id);
-        Task SaveAsync();
+        
+        Task<(IEnumerable<Episode> Episode, Info Info)> GetAllWithPagenationAsync(PaginationModel paginationModel);
+
     }
 }

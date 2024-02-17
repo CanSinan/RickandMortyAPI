@@ -10,7 +10,7 @@
         public Origin Origin { get; set; }
         public Location Location { get; set; }
         public string Image { get; set; }
-        public List<Episode> Episode { get; set; }
+        public ICollection<Episode> Episode { get; set; }
         public string Url { get; set; }
         public DateTime Created { get; set; }
     }

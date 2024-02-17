@@ -1,5 +1,6 @@
 ﻿using RickAndMorty.Data.Entities;
 using RickAndMorty.Data.Repositories.CharacterRepository;
+using RickAndMorty.Data.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,34 +18,11 @@ namespace RickAndMorty.Data.Repositories.CharacterRepositories
             _repository = repository;
         }
 
-        public async Task<Character> CreateAsync(Character entity)
+
+        public async Task<(IEnumerable<Character> Character, Info Info)> GetAllWithPagenationAsync(PaginationModel paginationModel)
         {
-            return await _repository.CreateAsync(entity);
+            return await _repository.GetAllWithPagenationAsync(paginationModel);
         }
 
-        public async Task<bool> DeleteAsync(int id)
-        {
-            return await _repository.DeleteAsync(id);
-        }
-
-        public async Task<IEnumerable<Character>> GetAllAsync()
-        {
-            return await _repository.GetAllAsync();
-        }
-
-        public async Task<Character> GetByIdAsync(int id)
-        {
-            return await _repository.GetByIdAsync(id);
-        }
-
-        public async Task SaveAsync()
-        {
-            await _repository.SaveAsync();
-        }
-
-        public async Task<Character> UpdateAsync(Character entity)
-        {
-            return await _repository.UpdateAsync(entity);
-        }
     }
 }
