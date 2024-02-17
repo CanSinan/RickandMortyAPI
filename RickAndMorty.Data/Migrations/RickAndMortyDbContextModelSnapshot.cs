@@ -199,6 +199,73 @@ namespace RickAndMorty.Data.Migrations
                     b.ToTable("Residents");
                 });
 
+            modelBuilder.Entity("RickAndMorty.Data.Entities.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AccessToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("AccessTokenCreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("LastName")
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("RickAndMorty.Data.Entities.UserRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserRoles");
+                });
+
             modelBuilder.Entity("CharacterEpisode", b =>
                 {
                     b.HasOne("RickAndMorty.Data.Entities.Character", null)
@@ -240,9 +307,25 @@ namespace RickAndMorty.Data.Migrations
                         .HasForeignKey("LocationId");
                 });
 
+            modelBuilder.Entity("RickAndMorty.Data.Entities.User", b =>
+                {
+                    b.HasOne("RickAndMorty.Data.Entities.UserRole", "Role")
+                        .WithMany("User")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("RickAndMorty.Data.Entities.Location", b =>
                 {
                     b.Navigation("Residents");
+                });
+
+            modelBuilder.Entity("RickAndMorty.Data.Entities.UserRole", b =>
+                {
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

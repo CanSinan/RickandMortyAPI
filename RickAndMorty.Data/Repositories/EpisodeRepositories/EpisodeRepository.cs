@@ -21,31 +21,57 @@ namespace RickAndMorty.Data.Repositories.EpisodeRepositories
 
         public async Task<(IEnumerable<Episode> Episode, Info Info)> GetAllWithPagenationAsync(PaginationModel paginationModel)
         {
-            var baseUrl = "https://localhost:7026/api/Episode";
-            var info = new Info();
+
+            var episodes = await GetEpisodesAsync(paginationModel);
+            var totalCount = await _context.Episodes.CountAsync();
+
+            var info = GenerateInfo(paginationModel, totalCount);
+
+            return (episodes, info);
+        }
+
+        private async Task<List<Episode>> GetEpisodesAsync(PaginationModel paginationModel)
+        {
+            if (paginationModel.PageNumber == 0)
+            {
+                return await _context.Episodes.Include(x => x.Characters).ToListAsync();
+            }
+
             var startIndex = (paginationModel.PageNumber - 1) * paginationModel.PageSize;
-            var episodes = await _context.Episodes.Include(x=>x.Characters).ToListAsync();
+
+            var episodes = await _context.Episodes.Include(x => x.Characters).ToListAsync();
 
             if (!string.IsNullOrWhiteSpace(paginationModel.SearchTerm))
             {
                 episodes = episodes.Where(x => x.Name.Contains(paginationModel.SearchTerm.ToLower())).ToList();
             }
 
-            var tablesOnPage = episodes
+            return episodes
                 .OrderBy(x => x.Id)
                 .Skip(startIndex)
                 .Take(paginationModel.PageSize).ToList();
-            var totalCount = await _context.Episodes.CountAsync();
+        }
+
+        private Info GenerateInfo(PaginationModel paginationModel, int totalCount)
+        {
+            var baseUrl = "https://localhost:7026/api/Episode";
+            var info = new Info();
+            if (paginationModel.PageNumber == 0)
+            {
+                info.Count = 0;
+                info.Pages = 0;
+                info.Prev = null;
+                info.Next = null;
+                return info;
+
+            }
 
             info.Count = totalCount;
-
             info.Pages = (int)Math.Ceiling((double)totalCount / paginationModel.PageSize);
+            info.Prev = paginationModel.PageNumber > 1 ? $"{baseUrl}?PageNumber={paginationModel.PageNumber - 1}&PageSize={paginationModel.PageSize}" : null;
+            info.Next = paginationModel.PageNumber < info.Pages ? $"{baseUrl}?PageNumber={paginationModel.PageNumber + 1}&PageSize={paginationModel.PageSize}" : null;
 
-            info.Prev = paginationModel.PageNumber > 1 ? $"{baseUrl}?PageNumber={paginationModel.PageNumber - 1}PageSize={paginationModel.PageSize}" : null;
-
-            info.Next = paginationModel.PageNumber < info.Pages ? $"{baseUrl}?PageNumber={paginationModel.PageNumber + 1}PageSize={paginationModel.PageSize}" : null;
-
-            return (tablesOnPage, info);
+            return info;
         }
 
     }

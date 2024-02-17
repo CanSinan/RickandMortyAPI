@@ -5,6 +5,7 @@ using RickAndMorty.Services.Models.EpisodeModels;
 using RickAndMorty.Services.Models.LocationModels;
 using RickAndMorty.Services.Models.OriginModels;
 using RickAndMorty.Services.Models.ResidentModels;
+using RickAndMorty.Services.Models.UserModels;
 
 namespace RickAndMorty.Services.AutoMapper
 {
@@ -44,7 +45,21 @@ namespace RickAndMorty.Services.AutoMapper
             CreateMap<Resident, ResidentModelForGetLocation>().ReverseMap();
 
             #endregion
-            
+
+            #region USER
+            CreateMap<LoginModel, User>().ReverseMap();
+
+            CreateMap<User, UserModel>()
+                .ForMember(dest => dest.UserRole, opt => opt.MapFrom(src => src.Role.RoleName))
+                .ReverseMap();
+
+            #endregion
+
+            #region USERROLE
+
+            CreateMap<string, UserRole>().ReverseMap();
+
+            #endregion
 
         }
     }

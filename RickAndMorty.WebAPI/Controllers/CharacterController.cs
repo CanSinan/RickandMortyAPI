@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RickAndMorty.Data.Repositories.CharacterRepository;
 using RickAndMorty.Data.RequestFeatures;
@@ -10,6 +10,8 @@ namespace RickAndMorty.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize("Admin")]
+
     public class CharacterController : ControllerBase
     {
         private readonly ICharacterService _service;
