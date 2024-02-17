@@ -10,7 +10,6 @@ namespace RickAndMorty.Data.Entities
     public class UserRole : BaseEntity
     {
         [StringLength(50)]
-        public string RoleName { get; set; }
-        public ICollection<User> User { get; set; }
+        public string Name { get; set; }
     }
 }

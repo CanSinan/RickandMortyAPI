@@ -45,7 +45,7 @@ namespace RickAndMorty.Data.Repositories.AuthenticationServices
             var userexist = await _authenticationRepository.LoginAsync(user);
             if (userexist != null)
             {
-                userexist.AccessToken = await GenerateNewJsonWebToken(userexist.UserName, userexist.Role.RoleName);
+                userexist.AccessToken = await GenerateNewJsonWebToken(userexist.UserName, userexist.UserRole.Name);
                 userexist.AccessTokenCreateDate = DateTime.Now;
                 await _authenticationRepository.SaveAsync();
                 return userexist;

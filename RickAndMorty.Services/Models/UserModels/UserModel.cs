@@ -14,6 +14,6 @@ namespace RickAndMorty.Services.Models.UserModels
         public string PhoneNumber { get; set; }
         public string? AccessToken { get; set; }
         public DateTime? AccessTokenCreateDate { get; set; }
-        public string UserRole { get; set; }
+        public int UserRoleId{ get; set; }
     }
 }
