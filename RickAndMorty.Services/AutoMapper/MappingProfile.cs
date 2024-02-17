@@ -49,15 +49,15 @@ namespace RickAndMorty.Services.AutoMapper
             #region USER
             CreateMap<LoginModel, User>().ReverseMap();
 
-            CreateMap<User, UserModel>()
-                .ForMember(dest => dest.UserRole, opt => opt.MapFrom(src => src.Role.RoleName))
-                .ReverseMap();
+            CreateMap<User, UserModel>().ReverseMap();
 
+            CreateMap<User, UserRegisterModel>().ReverseMap();
+            
             #endregion
 
             #region USERROLE
 
-            CreateMap<string, UserRole>().ReverseMap();
+            
 
             #endregion
 

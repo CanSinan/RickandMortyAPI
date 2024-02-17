@@ -13,7 +13,7 @@ namespace RickAndMorty.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize("Admin")]
+    [Authorize(Roles = "Admin")]
 
 
     public class EpisodeController : ControllerBase
