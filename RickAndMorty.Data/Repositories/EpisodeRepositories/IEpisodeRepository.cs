@@ -1,4 +1,5 @@
 ﻿using RickAndMorty.Data.Entities;
+using RickAndMorty.Data.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,7 @@ namespace RickAndMorty.Data.Repositories.EpisodeRepositories
 {
     public interface IEpisodeRepository : IGenericRepository<Episode>
     {
+        Task<(IEnumerable<Episode> Episode, Info Info)> GetAllWithPagenationAsync(PaginationModel paginationModel);
+
     }
 }

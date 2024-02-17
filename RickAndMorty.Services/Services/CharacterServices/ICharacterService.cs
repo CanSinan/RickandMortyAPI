@@ -1,14 +1,12 @@
 ﻿using RickAndMorty.Data.Entities;
+using RickAndMorty.Data.RequestFeatures;
 
 namespace RickAndMorty.Data.Repositories.CharacterRepository
 {
     public interface ICharacterService
     {
-        Task<IEnumerable<Character>> GetAllAsync();
-        Task<Character> GetByIdAsync(int id);
-        Task<Character> CreateAsync(Character entity);
-        Task<Character> UpdateAsync(Character entity);
-        Task<bool> DeleteAsync(int id);
-        Task SaveAsync();
+        
+        Task<(IEnumerable<Character> Character, Info Info)> GetAllWithPagenationAsync(PaginationModel paginationModel);
+
     }
 }

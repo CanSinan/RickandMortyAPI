@@ -1,4 +1,5 @@
 ﻿using RickAndMorty.Data.Entities;
+using RickAndMorty.Data.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,39 +12,13 @@ namespace RickAndMorty.Data.Repositories.LocationRepositories
     {
         private readonly ILocationRepository _repository;
 
-        public LocationService(ILocationRepository repository)
+        
+
+        public async Task<(IEnumerable<Location> Location, Info Info)> GetAllWithPagenationAsync(PaginationModel paginationModel)
         {
-            _repository = repository;
+            return await _repository.GetAllWithPagenationAsync(paginationModel);
         }
 
-        public async Task<Location> CreateAsync(Location entity)
-        {
-            return await _repository.CreateAsync(entity);
-        }
-
-        public async Task<bool> DeleteAsync(int id)
-        {
-            return await _repository.DeleteAsync(id);
-        }
-
-        public async Task<IEnumerable<Location>> GetAllAsync()
-        {
-            return await _repository.GetAllAsync();
-        }
-
-        public async Task<Location> GetByIdAsync(int id)
-        {
-            return await _repository.GetByIdAsync(id);
-        }
-
-        public async Task SaveAsync()
-        {
-            await _repository.SaveAsync();
-        }
-
-        public async Task<Location> UpdateAsync(Location entity)
-        {
-            return await _repository.UpdateAsync(entity);
-        }
+       
     }
 }

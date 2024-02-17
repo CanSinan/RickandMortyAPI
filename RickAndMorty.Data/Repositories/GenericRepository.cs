@@ -11,93 +11,87 @@ namespace RickAndMorty.Data.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
-        private RickAndMortyDbContext _dbContext;
-        private DbSet<T> _table;
-        public GenericRepository(RickAndMortyDbContext dbContext)
-        {
-            _dbContext = dbContext;
-            _table = dbContext.Set<T>();
-        }
-
-        public async Task<IEnumerable<T>> GetAllAsync()
-        {
-            return await _table.ToListAsync();
-        }
-
-        public async Task<T> GetByIdAsync(int id)
-        {
-            return await _table.FirstOrDefaultAsync(x =>x.Id== id);
-        }
-
-        public async Task<T> CreateAsync(T entity)
-        {
-            await _table.AddAsync(entity);
-            return entity;
-        }
-
-        //public async Task<T> UpdateAsync(T entity)
+        //private RickAndMortyDbContext _dbContext;
+        //private DbSet<T> _table;
+        //public GenericRepository(RickAndMortyDbContext dbContext)
         //{
-        //    entity.UpdateDate = DateTime.Now;
-        //    _table.Attach(entity);
-        //    _dbContext.Entry(entity).State = EntityState.Modified;
+        //    _dbContext = dbContext;
+        //    _table = dbContext.Set<T>();
+        //}
+
+        //public async Task<IEnumerable<T>> GetAllAsync()
+        //{
+        //    return await _table.ToListAsync();
+        //}
+
+        //public async Task<T> GetByIdAsync(int id)
+        //{
+        //    return await _table.FirstOrDefaultAsync(x =>x.Id== id);
+        //}
+
+        //public async Task<T> CreateAsync(T entity)
+        //{
+        //    await _table.AddAsync(entity);
         //    return entity;
         //}
-        public async Task<T> UpdateAsync(T entity)
-        {
-            var entry = _dbContext.Entry(entity);
 
-            if (entry.State == EntityState.Detached)
-            {
-                var oldEntity = await _table.FindAsync(entity.Id);
+        
+        //public async Task<T> UpdateAsync(T entity)
+        //{
+        //    var entry = _dbContext.Entry(entity);
 
-                if (oldEntity != null)
-                {
-                    var properties = typeof(T).GetProperties();
+        //    if (entry.State == EntityState.Detached)
+        //    {
+        //        var oldEntity = await _table.FindAsync(entity.Id);
 
-                    foreach (var property in properties)
-                    {
-                        if (property.CanWrite && property.CanRead)
-                        {
-                            var newValue = property.GetValue(entity, null);
-                            var oldValue = property.GetValue(oldEntity, null);
+        //        if (oldEntity != null)
+        //        {
+        //            var properties = typeof(T).GetProperties();
 
-                            if ((newValue != null && oldValue == null) || (newValue != null && !newValue.Equals(oldValue)))
-                            {
-                                _dbContext.Entry(oldEntity).Property(property.Name).IsModified = true;
-                                _dbContext.Entry(oldEntity).Property(property.Name).CurrentValue = newValue;
-                            }
-                        }
-                    }
+        //            foreach (var property in properties)
+        //            {
+        //                if (property.CanWrite && property.CanRead)
+        //                {
+        //                    var newValue = property.GetValue(entity, null);
+        //                    var oldValue = property.GetValue(oldEntity, null);
 
-                    entity = oldEntity;
-                }
-                else
-                {
-                    // Eğer veri bulunamazsa, yeni bir veri ekleniyor.
-                    _table.Add(entity);
-                }
-            }
-            else if (entry.State == EntityState.Modified)
-            {
-                // EntityState.Modified durumundaysa, SaveChangesAsync() metodunu çağırmadan önce özelliği manuel olarak güncelle
-                entry.Property("UpdateDate").CurrentValue = DateTime.Now;
-            }
+        //                    if ((newValue != null && oldValue == null) || (newValue != null && !newValue.Equals(oldValue)))
+        //                    {
+        //                        _dbContext.Entry(oldEntity).Property(property.Name).IsModified = true;
+        //                        _dbContext.Entry(oldEntity).Property(property.Name).CurrentValue = newValue;
+        //                    }
+        //                }
+        //            }
 
-            await _dbContext.SaveChangesAsync();
+        //            entity = oldEntity;
+        //        }
+        //        else
+        //        {
+        //            // Eğer veri bulunamazsa, yeni bir veri ekleniyor.
+        //            _table.Add(entity);
+        //        }
+        //    }
+        //    else if (entry.State == EntityState.Modified)
+        //    {
+        //        // EntityState.Modified durumundaysa, SaveChangesAsync() metodunu çağırmadan önce özelliği manuel olarak güncelle
+        //        entry.Property("UpdateDate").CurrentValue = DateTime.Now;
+        //    }
 
-            return entity;
-        }
+        //    await _dbContext.SaveChangesAsync();
 
-        public async Task<bool> DeleteAsync(int id)
-        {
-            T entity = await _table.FirstOrDefaultAsync(x => x.Id == id);
-            _dbContext.Remove(entity);
-            return true;
-        }
+        //    return entity;
+        //}
 
-        public async Task SaveAsync()
-        {
-            await _dbContext.SaveChangesAsync();
-        }
+        //public async Task<bool> DeleteAsync(int id)
+        //{
+        //    T entity = await _table.FirstOrDefaultAsync(x => x.Id == id);
+        //    _dbContext.Remove(entity);
+        //    return true;
+        //}
+
+        //public async Task SaveAsync()
+        //{
+        //    await _dbContext.SaveChangesAsync();
+        //}
     }
 }

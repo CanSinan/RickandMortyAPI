@@ -1,4 +1,5 @@
 ﻿using RickAndMorty.Data.Entities;
+using RickAndMorty.Data.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,34 +17,12 @@ namespace RickAndMorty.Data.Repositories.EpisodeRepositories
             _repository = repository;
         }
 
-        public async Task<Episode> CreateAsync(Episode entity)
+
+        public async Task<(IEnumerable<Episode> Episode, Info Info)> GetAllWithPagenationAsync(PaginationModel paginationModel)
         {
-            return await _repository.CreateAsync(entity);
+            return await _repository.GetAllWithPagenationAsync(paginationModel);
         }
 
-        public async Task<bool> DeleteAsync(int id)
-        {
-            return await _repository.DeleteAsync(id);
-        }
-
-        public async Task<IEnumerable<Episode>> GetAllAsync()
-        {
-            return await _repository.GetAllAsync();
-        }
-
-        public async Task<Episode> GetByIdAsync(int id)
-        {
-            return await _repository.GetByIdAsync(id);
-        }
-
-        public async Task SaveAsync()
-        {
-            await _repository.SaveAsync();
-        }
-
-        public async Task<Episode> UpdateAsync(Episode entity)
-        {
-            return await _repository.UpdateAsync(entity);
-        }
+      
     }
 }
