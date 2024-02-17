@@ -29,7 +29,11 @@ namespace RickAndMorty.WebAPI.Controllers
             var userMap = _mapper.Map<User>(userRegisterModel);
 
             var userRegister = await _authservice.RegisterAsync(userMap);
+            if (userRegister is null)
+            {
+                return BadRequest("Girilen UserName zaten kullanımda");
 
+            }
             var userRegisterMap = _mapper.Map<UserRegisterModel>(userRegister);
 
             return Ok(userRegisterMap);

@@ -30,6 +30,12 @@ namespace RickAndMorty.Data.Repositories.AuthenticationRepositories
 
         public async Task<User> RegisterAsync(User user)
         {
+            var userExist = _context.Users.FirstOrDefaultAsync(x => x.UserName == user.UserName);
+            if (userExist is not null)
+            {
+                return null;
+
+            }
             await _context.Set<User>().AddAsync(user);
             await _context.SaveChangesAsync();
             return user;
