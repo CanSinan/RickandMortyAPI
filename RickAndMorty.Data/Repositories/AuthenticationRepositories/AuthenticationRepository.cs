@@ -20,7 +20,7 @@ namespace RickAndMorty.Data.Repositories.AuthenticationRepositories
 
         public async Task<User> LoginAsync(User user)
         {
-            var userValidate = await _context.Users.Include(x=>x.Role).FirstOrDefaultAsync(x => x.UserName == user.UserName && x.Password == user.Password);
+            var userValidate = await _context.Users.Include(x=>x.UserRole).FirstOrDefaultAsync(x => x.UserName == user.UserName && x.Password == user.Password);
             if (userValidate is null)
             {
                 return null;
@@ -30,9 +30,8 @@ namespace RickAndMorty.Data.Repositories.AuthenticationRepositories
 
         public async Task<User> RegisterAsync(User user)
         {
-            await _context.Users.AddAsync(user);
-
-            await SaveAsync();
+            await _context.Set<User>().AddAsync(user);
+            await _context.SaveChangesAsync();
             return user;
         }
 

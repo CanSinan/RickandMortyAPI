@@ -21,14 +21,16 @@ namespace RickAndMorty.WebAPI.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> Register(UserModel user)
+        public async Task<IActionResult> Register(UserRegisterModel userRegisterModel)
         {
-            if (user is null)
-                return BadRequest("UserModel objesi null olamaz");
+            if (userRegisterModel is null)
+                return BadRequest("UserRegisterModel objesi null olamaz");
 
-            var userMap = _mapper.Map<User>(user);
+            var userMap = _mapper.Map<User>(userRegisterModel);
+
             var userRegister = await _authservice.RegisterAsync(userMap);
-            var userRegisterMap = _mapper.Map<UserModel>(userRegister);
+
+            var userRegisterMap = _mapper.Map<UserRegisterModel>(userRegister);
 
             return Ok(userRegisterMap);
         }

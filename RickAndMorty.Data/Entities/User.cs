@@ -20,6 +20,7 @@ namespace RickAndMorty.Data.Entities
         public string PhoneNumber { get; set; }
         public string? AccessToken { get; set; }
         public DateTime? AccessTokenCreateDate { get; set; }
-        public UserRole Role { get; set; }
+        public UserRole UserRole { get; set; }
+        public int UserRoleId { get; set; }
     }
 }

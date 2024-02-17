@@ -10,7 +10,7 @@ namespace RickAndMorty.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize("Admin")]
+    [Authorize(Roles ="Admin,User")]
 
     public class CharacterController : ControllerBase
     {

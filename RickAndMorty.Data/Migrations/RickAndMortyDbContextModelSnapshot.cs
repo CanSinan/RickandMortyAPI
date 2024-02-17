@@ -234,16 +234,16 @@ namespace RickAndMorty.Data.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserRoleId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("UserRoleId");
 
                     b.ToTable("Users");
                 });
@@ -256,7 +256,7 @@ namespace RickAndMorty.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("RoleName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -264,6 +264,18 @@ namespace RickAndMorty.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "User"
+                        });
                 });
 
             modelBuilder.Entity("CharacterEpisode", b =>
@@ -309,23 +321,18 @@ namespace RickAndMorty.Data.Migrations
 
             modelBuilder.Entity("RickAndMorty.Data.Entities.User", b =>
                 {
-                    b.HasOne("RickAndMorty.Data.Entities.UserRole", "Role")
-                        .WithMany("User")
-                        .HasForeignKey("RoleId")
+                    b.HasOne("RickAndMorty.Data.Entities.UserRole", "UserRole")
+                        .WithMany()
+                        .HasForeignKey("UserRoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Role");
+                    b.Navigation("UserRole");
                 });
 
             modelBuilder.Entity("RickAndMorty.Data.Entities.Location", b =>
                 {
                     b.Navigation("Residents");
-                });
-
-            modelBuilder.Entity("RickAndMorty.Data.Entities.UserRole", b =>
-                {
-                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }
