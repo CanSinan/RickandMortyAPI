@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RickAndMorty.Data.Repositories.CharacterRepository;
@@ -12,6 +13,9 @@ namespace RickAndMorty.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize("Admin")]
+
+
     public class EpisodeController : ControllerBase
     {
         private readonly IEpisodeService _service;

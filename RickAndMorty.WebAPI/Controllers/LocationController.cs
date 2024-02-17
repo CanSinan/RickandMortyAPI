@@ -1,17 +1,16 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RickAndMorty.Data.Repositories.EpisodeRepositories;
 using RickAndMorty.Data.Repositories.LocationRepositories;
 using RickAndMorty.Data.RequestFeatures;
 using RickAndMorty.Services.Models;
-using RickAndMorty.Services.Models.EpisodeModels;
 using RickAndMorty.Services.Models.LocationModels;
 
 namespace RickAndMorty.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize("Admin")]
     public class LocationController : ControllerBase
     {
         private readonly ILocationService _service;

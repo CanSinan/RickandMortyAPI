@@ -17,8 +17,8 @@ namespace RickAndMorty.Data.Contexts
         public DbSet<Location> Locations { get; set; }
         public DbSet<Resident> Residents{ get; set; }
         public DbSet<Origin> Origins { get; set; }
-        //public DbSet<User> Users { get; set; }
-        //public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
